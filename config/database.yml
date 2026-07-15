@@ -18,6 +18,10 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # Fail fast under lock contention instead of blocking forever on FOR UPDATE.
+  # A timeout raises ActiveRecord::LockWaitTimeout, which the API turns into 503.
+  variables:
+    lock_timeout: 5000 # ms
 
 
 development:
